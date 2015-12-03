@@ -27,4 +27,12 @@ scala> new io.ddf.DDFSpec(<engineName>) execute <all or part of test name>
 For example, to run just the BinningHandler's test for equal Interval
 scala> new io.ddf.DDFSpec("spark") execute "equal Interval" 
 
+
+//to run different multiple tests,
+scala> new io.ddf.DDFSpec(<engineName>) runMultiple <comma-separated names>
+
+scala> new io.ddf.DDFSpec("spark") runMultiple "equal interval,summary"
+
+scala> new io.ddf.DDFSpec("spark") runMultiple "Binning,Statistics"
+
 ```
