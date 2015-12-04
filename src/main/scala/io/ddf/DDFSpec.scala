@@ -18,48 +18,64 @@
  */
 package io.ddf
 
-class DDFSpec(engineName: String) extends BaseSpec with StatisticsSpec with BinningSpec {
+import io.ddf.datasource.{JDBCDataSourceDescriptor, JDBCDataSourceCredentials, DataSourceURI}
+import io.ddf.misc.Config
 
-  override val manager = DDFManager.get(DDFManager.EngineType.fromString(engineName))
+class DDFSpec(engine: String) extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
+JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
+with TransformationSpec with ViewSpec {
+
+  override val engineName = engine
+
+  object EngineDescriptor {
+    def apply(engine: String) = {
+      val user = Config.getValue(engine, "jdbcUser")
+      val password = Config.getValue(engine, "jdbcPassword")
+      val jdbcUrl = Config.getValue(engine, "jdbcUrl")
+      val dataSourceURI = new DataSourceURI(jdbcUrl)
+      val credentials = new JDBCDataSourceCredentials(user, password)
+      new JDBCDataSourceDescriptor(dataSourceURI, credentials, null)
+    }
+  }
+
+  override val manager = DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor("postgres"))
 
   def runMultiple(names: String) = {
     names.split(",").foreach(name => this.execute(name))
   }
 
-  private def loadCSVIfNotExists(ddfName: String,
-                                 fileName: String,
-                                 columns: Seq[String],
-                                 delimiter: Char = ',',
-                                 isNullSetToDefault: Boolean = true): DDF = {
-    try {
-      manager.getDDFByName(ddfName)
-    } catch {
-      case e: Exception =>
-//        manager.sql(s"create table $ddfName (${columns.mkString(",")})", engineName)
-        manager.sql(s"create table $ddfName (${columns.mkString(",")}) row format delimited fields terminated by ' '", engineName)
-        val filePath = getClass.getResource(fileName).getPath
-        /*val additionalOptions = if (!isNullSetToDefault) {
-          "WITH NULL '' NO DEFAULTS"
-        } else {
-          s"DELIMITED BY '$delimiter'"
-        }*/
-//        manager.sql(s"load '$filePath' $additionalOptions INTO $ddfName", engineName)
-        manager.sql(s"LOAD DATA LOCAL INPATH '$filePath' INTO TABLE $ddfName", engineName)
-        manager.getDDFByName(ddfName)
+  /*
+  feature("as") {
+    scenario("asd") {
+      val ddf = loadMtCarsDDF()
+
+      val schemaHandler = ddf.getSchemaHandler
+      println(ddf.getNumColumns+"sdf"+ddf.getNumRows+"ll"+ddf.getColumnNames)
+      Array(7, 8, 9, 10).foreach {
+        idx => schemaHandler.setAsFactor(idx)
+      }
+      schemaHandler.computeFactorLevelsAndLevelCounts()
+      val cols = Array(7, 8, 9, 10).map {
+        idx => schemaHandler.getColumn(schemaHandler.getColumnName(idx))
+      }
+      println("", cols.mkString(","))
+      assert(cols(0).getOptionalFactor.getLevelCounts.get("1") === 14)
+      assert(cols(0).getOptionalFactor.getLevelCounts.get("0") === 18)
+      assert(cols(1).getOptionalFactor.getLevelCounts.get("1") === 13)
+      assert(cols(2).getOptionalFactor.getLevelCounts.get("4") === 12)
+
+      assert(cols(2).getOptionalFactor.getLevelCounts.get("3") === 15)
+      assert(cols(2).getOptionalFactor.getLevelCounts.get("5") === 5)
+      assert(cols(3).getOptionalFactor.getLevelCounts.get("1") === 7)
+      assert(cols(3).getOptionalFactor.getLevelCounts.get("2") === 10)
     }
-  }
+  }*/
 
-  def loadMtCarsDDF(): DDF = {
-    val ddfName: String = "mtcars"
-    loadCSVIfNotExists(ddfName, s"/$ddfName",
-      Seq("mpg double", "cyl int", "disp double", "hp int", "drat double", "wt double",
-        "qsec double", "vs int", "am int", "gear int", "carb int"),
-      delimiter = ' ')
-  }
 
-  feature("copy") {
+  /*feature("copy") {
     val ddf1 = loadMtCarsDDF()
     Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
+          println(ddf1.getSchemaHandler+"ddd")
       col => ddf1.getSchemaHandler.setAsFactor(col)
     }
 
@@ -81,5 +97,5 @@ class DDFSpec(engineName: String) extends BaseSpec with StatisticsSpec with Binn
     scenario("name is not copied") {
       assert(ddf1.getName != ddf2.getName)
     }
-  }
+  }*/
 }
