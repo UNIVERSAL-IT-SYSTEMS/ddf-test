@@ -44,35 +44,8 @@ with TransformationSpec with ViewSpec {
     names.split(",").foreach(name => this.execute(name))
   }
 
-  /*
-  feature("as") {
-    scenario("asd") {
-      val ddf = loadMtCarsDDF()
 
-      val schemaHandler = ddf.getSchemaHandler
-      println(ddf.getNumColumns+"sdf"+ddf.getNumRows+"ll"+ddf.getColumnNames)
-      Array(7, 8, 9, 10).foreach {
-        idx => schemaHandler.setAsFactor(idx)
-      }
-      schemaHandler.computeFactorLevelsAndLevelCounts()
-      val cols = Array(7, 8, 9, 10).map {
-        idx => schemaHandler.getColumn(schemaHandler.getColumnName(idx))
-      }
-      println("", cols.mkString(","))
-      assert(cols(0).getOptionalFactor.getLevelCounts.get("1") === 14)
-      assert(cols(0).getOptionalFactor.getLevelCounts.get("0") === 18)
-      assert(cols(1).getOptionalFactor.getLevelCounts.get("1") === 13)
-      assert(cols(2).getOptionalFactor.getLevelCounts.get("4") === 12)
-
-      assert(cols(2).getOptionalFactor.getLevelCounts.get("3") === 15)
-      assert(cols(2).getOptionalFactor.getLevelCounts.get("5") === 5)
-      assert(cols(3).getOptionalFactor.getLevelCounts.get("1") === 7)
-      assert(cols(3).getOptionalFactor.getLevelCounts.get("2") === 10)
-    }
-  }*/
-
-
-  /*feature("copy") {
+  feature("copy") {
     val ddf1 = loadMtCarsDDF()
     Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
           println(ddf1.getSchemaHandler+"ddd")
@@ -97,5 +70,5 @@ with TransformationSpec with ViewSpec {
     scenario("name is not copied") {
       assert(ddf1.getName != ddf2.getName)
     }
-  }*/
+  }
 }
