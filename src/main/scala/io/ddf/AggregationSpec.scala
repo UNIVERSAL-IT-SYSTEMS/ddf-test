@@ -29,7 +29,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
     scenario("calculate simple aggregates"){
       val ddf = loadAirlineDDF()
       val aggregateResult = ddf.aggregate("Year, Month, min(ArrDelay), max(DepDelay)")
-      val result: Array[Double] = aggregateResult.get("2010,3")
+      val result: Array[Double] = aggregateResult.get("2008,1")
       result.length should be(2)
 
       val colAggregate = ddf.getAggregationHandler.aggregateOnColumn(AggregateFunction.MAX, "Year")
@@ -44,7 +44,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
       val avgDelayByDay = ddf.groupBy(l1, l2)
       avgDelayByDay.getColumnNames.map(col => col.toLowerCase()) should (contain("avg") and contain("dayofmonth"))
       val rows = avgDelayByDay.sql("select * from @this", "").getRows
-      rows.head should be("21,3")
+      rows.head.split("\t").head.toDouble should be (21.0 +- 1.0)
     }
 
     scenario("group and aggregate)2 steps"){
@@ -53,7 +53,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
       val result = ddf2.getAggregationHandler.agg(List("mean=avg(ArrDelay)"))
       result.getColumnNames.map(col => col.toLowerCase) should (contain("mean") and contain("dayofmonth"))
       val rows = result.sql("select * from @this", "").getRows
-      rows.head should be("9,3")
+      rows.head.split("\t").head.toDouble should be (9.0 +- 1.0)
     }
 
     scenario("throw an error on aggregate without groups"){

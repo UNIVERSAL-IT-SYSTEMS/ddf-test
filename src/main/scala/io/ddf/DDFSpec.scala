@@ -48,7 +48,6 @@ with TransformationSpec with ViewSpec {
   feature("copy") {
     val ddf1 = loadMtCarsDDF()
     Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-          println(ddf1.getSchemaHandler+"ddd")
       col => ddf1.getSchemaHandler.setAsFactor(col)
     }
 
