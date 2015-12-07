@@ -45,29 +45,50 @@ with TransformationSpec with ViewSpec {
   }
 
   feature("copy") {
-    //This feature id unsupported for ddf-on-jdbc
-    val ddf1 = loadMtCarsDDF()
-    Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-      println(ddf1.getSchemaHandler + "ddd")
-      col => ddf1.getSchemaHandler.setAsFactor(col)
-    }
+    //This feature is unsupported for ddf-on-jdbc
 
-    val ddf2 = ddf1.copy()
     scenario("factor columns should be copied") {
+      val ddf1 = loadMtCarsDDF()
+      Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
+        println(ddf1.getSchemaHandler + "ddd")
+        col => ddf1.getSchemaHandler.setAsFactor(col)
+      }
 
+      val ddf2 = ddf1.copy()
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
         col =>
           assert(ddf2.getSchemaHandler.getColumn(col).getOptionalFactor != null)
       }
     }
     scenario("all rows are copied") {
+      val ddf1 = loadMtCarsDDF()
+      Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
+        println(ddf1.getSchemaHandler + "ddd")
+        col => ddf1.getSchemaHandler.setAsFactor(col)
+      }
+
+      val ddf2 = ddf1.copy()
       assert(ddf1.getNumRows == ddf2.getNumRows)
     }
 
     scenario("all columns are copied") {
+      val ddf1 = loadMtCarsDDF()
+      Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
+        println(ddf1.getSchemaHandler + "ddd")
+        col => ddf1.getSchemaHandler.setAsFactor(col)
+      }
+
+      val ddf2 = ddf1.copy()
       assert(ddf1.getNumColumns == ddf2.getNumColumns)
     }
     scenario("name is not copied") {
+      val ddf1 = loadMtCarsDDF()
+      Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
+        println(ddf1.getSchemaHandler + "ddd")
+        col => ddf1.getSchemaHandler.setAsFactor(col)
+      }
+
+      val ddf2 = ddf1.copy()
       assert(ddf1.getName != ddf2.getName)
     }
   }
