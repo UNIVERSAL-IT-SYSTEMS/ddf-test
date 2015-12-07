@@ -19,12 +19,12 @@
 package io.ddf
 
 import scala.collection.JavaConversions._
-import org.scalatest.{ Matchers}
+import org.scalatest.{Matchers}
 
 trait ViewSpec extends BaseSpec with Matchers {
 
   feature("View") {
-    scenario("project after remove columns "){
+    scenario("project after remove columns ") {
       val ddf = loadAirlineDDF
       val columns: java.util.List[String] = new java.util.ArrayList()
       columns.add("year")
@@ -40,7 +40,7 @@ trait ViewSpec extends BaseSpec with Matchers {
     }
 
 
-    scenario("test sample"){
+    scenario("test sample") {
       val ddf = loadMtCarsDDF()
       val sample = ddf.VIEWS.getRandomSample(10)
       sample.get(0)(0).toString.toDouble should not be (sample.get(1)(0).toString.toDouble)
@@ -50,17 +50,17 @@ trait ViewSpec extends BaseSpec with Matchers {
     }
 
     //This is not implemented for ddf-on-jdbc
-    ignore("test sample with percentage"){
+    ignore("test sample with percentage") {
       val ddf = loadAirlineDDF()
       val sample = ddf.VIEWS.getRandomSample(0.5, false, 1)
-      sample.VIEWS.head(3) should have size(3)
+      sample.VIEWS.head(3) should have size (3)
     }
 
 
-    scenario("get top 3 rows"){
+    scenario("get top 3 rows") {
       val sample = manager.sql2ddf("SELECT Month from airline")
       manager.setDDFName(sample, "sample")
-      sample.VIEWS.head(3) should have size(3)
+      sample.VIEWS.head(3) should have size (3)
     }
   }
 

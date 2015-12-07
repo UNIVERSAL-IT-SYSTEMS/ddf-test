@@ -26,22 +26,22 @@ trait BinningSpec extends BaseSpec with Matchers {
 
   feature("Binning") {
     scenario("bin by equal interval") {
-       val monthColumnLabel ="month"
-       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, true, true)
-       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
-       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
-       //  {"[1,6]" = 26,"(6,11]" = 5}
-       newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
-       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
-       levelCounts.get("[1,6]") should be(26)
-       levelCounts.get("(6,11]") should be(5)
-       levelCounts.values().asScala.reduce(_ + _) should be(31)
-       newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (31)
+      val monthColumnLabel = "month"
+      val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, true, true)
+      val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
+      monthColumn.getColumnClass should be(ColumnClass.FACTOR)
+      //  {"[1,6]" = 26,"(6,11]" = 5}
+      newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
+      val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
+      levelCounts.get("[1,6]") should be(26)
+      levelCounts.get("(6,11]") should be(5)
+      levelCounts.values().asScala.reduce(_ + _) should be(31)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (31)
     }
 
     scenario("bin by equal frequency") {
       val monthColumnLabel = "month"
-      val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUAlFREQ", 2, null, true, true)
+      val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALFREQ", 2, null, true, true)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)

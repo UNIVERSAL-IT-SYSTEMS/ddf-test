@@ -27,7 +27,7 @@ import org.scalatest.{Matchers}
 trait PersistenceSpec extends BaseSpec with Matchers {
 
   feature("Persistence") {
-    scenario("hold namespaces correctly"){
+    scenario("hold namespaces correctly") {
       val ddf: DDF = manager.newDDF
 
       val namespaces = ddf.getPersistenceHandler.listNamespaces
@@ -40,7 +40,7 @@ trait PersistenceSpec extends BaseSpec with Matchers {
 
     }
 
-    scenario("persist and unpersist a flink DDF"){
+    scenario("persist and unpersist a flink DDF") {
       val ddf: DDF = manager.newDDF
 
       val uri: PersistenceUri = ddf.persist

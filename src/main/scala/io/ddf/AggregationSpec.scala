@@ -20,13 +20,13 @@ package io.ddf
 
 import io.ddf.exception.DDFException
 import io.ddf.types.AggregateTypes.AggregateFunction
-import org.scalatest.{ Matchers}
+import org.scalatest.{Matchers}
 import scala.collection.JavaConversions._
 
 trait AggregationSpec extends BaseSpec with Matchers {
 
   feature("Aggregation") {
-    scenario("calculate simple aggregates"){
+    scenario("calculate simple aggregates") {
       val ddf = loadAirlineDDF()
       val aggregateResult = ddf.aggregate("Year, Month, min(ArrDelay), max(DepDelay)")
       val result: Array[Double] = aggregateResult.get("2008\t3")
@@ -36,7 +36,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
       colAggregate should be(2010)
     }
 
-    scenario("group data"){
+    scenario("group data") {
       val ddf = loadAirlineDDF()
       val l1: java.util.List[String] = List("DayofMonth")
       val l2: java.util.List[String] = List("avg(DepDelay)")
@@ -44,19 +44,19 @@ trait AggregationSpec extends BaseSpec with Matchers {
       val avgDelayByDay = ddf.groupBy(l1, l2)
       avgDelayByDay.getColumnNames.map(col => col.toLowerCase()) should (contain("avg") and contain("dayofmonth"))
       val rows = avgDelayByDay.sql("select * from @this", "").getRows
-      rows.head.split("\t").head.toDouble should be (21.0 +- 1.0)
+      rows.head.split("\t").head.toDouble should be(21.0 +- 1.0)
     }
 
-    scenario("group and aggregate)2 steps"){
+    scenario("group and aggregate)2 steps") {
       val ddf = loadAirlineDDF()
       val ddf2 = ddf.getAggregationHandler.groupBy(List("DayofMonth"))
       val result = ddf2.getAggregationHandler.agg(List("mean=avg(ArrDelay)"))
       result.getColumnNames.map(col => col.toLowerCase) should (contain("mean") and contain("dayofmonth"))
       val rows = result.sql("select * from @this", "").getRows
-      rows.head.split("\t").head.toDouble should be (9.0 +- 1.0)
+      rows.head.split("\t").head.toDouble should be(9.0 +- 1.0)
     }
 
-    scenario("throw an error on aggregate without groups"){
+    scenario("throw an error on aggregate without groups") {
       val airlineDDF = loadAirlineDDF()
       val ddf = airlineDDF.sql2ddf("select * from airline")
       intercept[Exception] {
@@ -64,7 +64,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
       }
     }
 
-    scenario("calculate correlation"){
+    scenario("calculate correlation") {
       val ddf = loadAirlineDDF()
       //0.8977184691827954
       ddf.correlation("ArrDelay", "DepDelay") should be(0.89 +- 1)

@@ -44,10 +44,11 @@ with TransformationSpec with ViewSpec {
     names.split(",").foreach(name => this.execute(name))
   }
 
-  feature("copy") { //This feature id unsupported for ddf-on-jdbc
+  feature("copy") {
+    //This feature id unsupported for ddf-on-jdbc
     val ddf1 = loadMtCarsDDF()
     Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-          println(ddf1.getSchemaHandler+"ddd")
+      println(ddf1.getSchemaHandler + "ddd")
       col => ddf1.getSchemaHandler.setAsFactor(col)
     }
 
