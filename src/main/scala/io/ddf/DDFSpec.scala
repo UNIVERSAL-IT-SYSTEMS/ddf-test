@@ -47,8 +47,10 @@ with TransformationSpec with ViewSpec {
 
   feature("copy") {
     val ddf1 = loadMtCarsDDF()
+    val schemaHandler = ddf1.getSchemaHandler
+
     Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-      col => ddf1.getSchemaHandler.setAsFactor(col)
+      col => schemaHandler.setAsFactor(col)
     }
 
     val ddf2 = ddf1.copy()
@@ -56,6 +58,7 @@ with TransformationSpec with ViewSpec {
 
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
         col =>
+          print(ddf2.getSchemaHandler)
           assert(ddf2.getSchemaHandler.getColumn(col).getOptionalFactor != null)
       }
     }

@@ -25,16 +25,16 @@ trait ViewSpec extends BaseSpec with Matchers {
 
   feature("View") {
     scenario("project after remove columns "){
-      val ddf = loadAirlineDDF()
-      val ddf0 = manager.sql2ddf("select * from airline", "flink")
-      val yearLabel = "Year"
-      val depTimeLabel = "DepTime"
-      val columns: java.util.List[String] = List(yearLabel, depTimeLabel, "Month")
+      val ddf = loadAirlineDDF
+      val columns: java.util.List[String] = new java.util.ArrayList()
+      columns.add("year")
+      columns.add("month")
+      columns.add("deptime")
 
-      val newddf1: DDF = ddf.VIEWS.removeColumn(yearLabel)
+      val newddf1: DDF = ddf.VIEWS.removeColumn("year")
+      val newddf2: DDF = ddf.VIEWS.removeColumns("year", "deptime")
+      val newddf3: DDF = ddf.VIEWS.removeColumns(columns)
       newddf1.getNumColumns should be(28)
-      val newddf2: DDF = ddf.VIEWS.removeColumns(depTimeLabel)
-      val newddf3: DDF = ddf0.VIEWS.removeColumns(columns)
       newddf2.getNumColumns should be(27)
       newddf3.getNumColumns should be(26)
     }
@@ -43,14 +43,14 @@ trait ViewSpec extends BaseSpec with Matchers {
     scenario("test sample"){
       val ddf = loadMtCarsDDF()
       val sample = ddf.VIEWS.getRandomSample(10)
-
-      sample.get(0)(0).asInstanceOf[Double] should not be (sample.get(1)(0).asInstanceOf[Double])
-      sample.get(1)(0).asInstanceOf[Double] should not be (sample.get(2)(0).asInstanceOf[Double])
-      sample.get(2)(0).asInstanceOf[Double] should not be (sample.get(3)(0).asInstanceOf[Double])
+      sample.get(0)(0).toString.toDouble should not be (sample.get(1)(0).toString.toDouble)
+      sample.get(1)(0).toString.toDouble should not be (sample.get(2)(0).toString.toDouble)
+      sample.get(2)(0).toString.toDouble should not be (sample.get(3)(0).toString.toDouble)
       sample.size should be(10)
     }
 
-    scenario("test sample with percentage"){
+    //This is not implemented for ddf-on-jdbc
+    ignore("test sample with percentage"){
       val ddf = loadAirlineDDF()
       val sample = ddf.VIEWS.getRandomSample(0.5, false, 1)
       sample.VIEWS.head(3) should have size(3)
