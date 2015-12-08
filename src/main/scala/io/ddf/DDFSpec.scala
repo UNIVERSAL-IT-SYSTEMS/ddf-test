@@ -20,6 +20,7 @@ package io.ddf
 
 import io.ddf.datasource.{JDBCDataSourceDescriptor, JDBCDataSourceCredentials, DataSourceURI}
 import io.ddf.misc.Config
+import org.scalatest.tools.Runner
 
 class DDFSpec(engine: String) extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
@@ -50,7 +51,6 @@ with TransformationSpec with ViewSpec {
     scenario("factor columns should be copied") {
       val ddf1 = loadMtCarsDDF()
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-        println(ddf1.getSchemaHandler + "ddd")
         col => ddf1.getSchemaHandler.setAsFactor(col)
       }
 
@@ -63,7 +63,6 @@ with TransformationSpec with ViewSpec {
     scenario("all rows are copied") {
       val ddf1 = loadMtCarsDDF()
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-        println(ddf1.getSchemaHandler + "ddd")
         col => ddf1.getSchemaHandler.setAsFactor(col)
       }
 
@@ -74,7 +73,6 @@ with TransformationSpec with ViewSpec {
     scenario("all columns are copied") {
       val ddf1 = loadMtCarsDDF()
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-        println(ddf1.getSchemaHandler + "ddd")
         col => ddf1.getSchemaHandler.setAsFactor(col)
       }
 
@@ -84,7 +82,6 @@ with TransformationSpec with ViewSpec {
     scenario("name is not copied") {
       val ddf1 = loadMtCarsDDF()
       Array("cyl", "hp", "vs", "am", "gear", "carb").foreach {
-        println(ddf1.getSchemaHandler + "ddd")
         col => ddf1.getSchemaHandler.setAsFactor(col)
       }
 

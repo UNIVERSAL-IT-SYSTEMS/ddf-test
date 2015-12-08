@@ -13,6 +13,5 @@ fork in Test := true
 parallelExecution in ThisBuild := false
 
 libraryDependencies := Seq("io.ddf" %% "ddf_core" % "1.5.0-SNAPSHOT",
-  "org.scalatest" %% "scalatest" % "3.0.0-M7",
-  "com.typesafe" % "config" % "1.3.0"
+  "org.scalatest" %% "scalatest" % "3.0.0-M7"
 )
