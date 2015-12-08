@@ -30,9 +30,12 @@ with TransformationSpec with ViewSpec {
 
   object EngineDescriptor {
     def apply(engine: String) = {
-      val user = Config.getValue(engine, "jdbcUser")
-      val password = Config.getValue(engine, "jdbcPassword")
-      val jdbcUrl = Config.getValue(engine, "jdbcUrl")
+      val USER = "jdbcUser"
+      val PASSWORD = "jdbcPassword"
+      val URL = "jdbcUrl"
+      val user = Config.getValue(engine, USER)
+      val password = Config.getValue(engine, PASSWORD)
+      val jdbcUrl = Config.getValue(engine, URL)
       val dataSourceURI = new DataSourceURI(jdbcUrl)
       val credentials = new JDBCDataSourceCredentials(user, password)
       new JDBCDataSourceDescriptor(dataSourceURI, credentials, null)
