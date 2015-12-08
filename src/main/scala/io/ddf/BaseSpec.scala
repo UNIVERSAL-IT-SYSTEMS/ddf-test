@@ -24,11 +24,13 @@ trait BaseSpec extends FeatureSpec {
   val manager: DDFManager
   val engineName: String
 
+
   def loadMtCarsDDF(): DDF = {
     val ddfName: String = "mtcars"
     loadCSVIfNotExists(ddfName, s"/$ddfName",
-      Seq("mpg decimal", "cyl int", "disp decimal", "hp int", "drat decimal", "wt decimal",
-        "qsec decimal", "vs int", "am int", "gear int", "carb int"),
+      Seq(s"mpg ${floatingType(engineName.toLowerCase)}", "cyl int", s"disp ${floatingType(engineName.toLowerCase)}",
+        "hp int", s"drat ${floatingType(engineName.toLowerCase)}", s"wt ${floatingType(engineName.toLowerCase)}",
+        s"qsec ${floatingType(engineName.toLowerCase)}", "vs int", "am int", "gear int", "carb int"),
       delimiter = ' ')
   }
 
@@ -57,11 +59,16 @@ trait BaseSpec extends FeatureSpec {
     }
   }
 
-  private val airlineColumns = Seq("Year int", "Month int", "DayofMonth int", "DayofWeek int", "DepTime int",
-    "CRSDepTime int", "ArrTime int", "CRSArrTime int", "UniqueCarrier varchar", "FlightNum int", "TailNum varchar",
-    "ActualElapsedTime int", "CRSElapsedTime int", "AirTime int", "ArrDelay int", "DepDelay int", "Origin varchar",
-    "Dest varchar", "Distance int", "TaxiIn int", "TaxiOut int", "Cancelled int", "CancellationCode varchar",
-    "Diverted varchar", "CarrierDelay int", "WeatherDelay int", "NASDelay int", "SecurityDelay int", "LateAircraftDelay int")
+  val varcharType = Map("aws" -> "varchar", "jdbc" -> "varchar", "postgres" -> "varchar", "spark" -> "string", "flink" -> "string")
+  val floatingType = Map("aws" -> "decimal", "jdbc" -> "double", "postgres" -> "decimal", "spark" -> "double", "flink" -> "double")
+
+  private def airlineColumns = Seq("Year int", "Month int", "DayofMonth int", "DayofWeek int", "DepTime int",
+    "CRSDepTime int", "ArrTime int", "CRSArrTime int", s"UniqueCarrier ${varcharType(engineName.toLowerCase)}",
+    "FlightNum int", s"TailNum ${varcharType(engineName.toLowerCase)}", "ActualElapsedTime int", "CRSElapsedTime int",
+    "AirTime int", "ArrDelay int", "DepDelay int", s"Origin ${varcharType(engineName.toLowerCase)}",
+    s"Dest ${varcharType(engineName.toLowerCase)}", "Distance int", "TaxiIn int", "TaxiOut int", "Cancelled int",
+    s"CancellationCode ${varcharType(engineName.toLowerCase)}", s"Diverted ${varcharType(engineName.toLowerCase)}",
+    "CarrierDelay int", "WeatherDelay int", "NASDelay int", "SecurityDelay int", "LateAircraftDelay int")
 
   def loadIrisTest(): DDF = {
     val train = manager.getDDFByName("iris")
@@ -87,16 +94,18 @@ trait BaseSpec extends FeatureSpec {
 
   def loadYearNamesDDF(): DDF = {
     val ddfName = "year_names"
-    loadCSVIfNotExists(ddfName, s"/$ddfName.csv", Seq("Year_num int", "Name varchar"))
+    loadCSVIfNotExists(ddfName, s"/$ddfName.csv", Seq("Year_num int", s"Name ${varcharType(engineName.toLowerCase)}"))
   }
 
   def loadIrisTrain(): DDF = {
-    loadCSVIfNotExists("iris", "/fisheriris.csv", Seq("flower decimal", "petal decimal", "septal decimal"))
+    loadCSVIfNotExists("iris", "/fisheriris.csv", Seq(s"flower ${floatingType(engineName.toLowerCase)}", "petal " +
+      s"${floatingType(engineName.toLowerCase)}", s"septal ${floatingType(engineName.toLowerCase)}"))
   }
 
   def loadRegressionTrain(): DDF = {
     val ddfName: String = "regression_data"
-    loadCSVIfNotExists(ddfName, "/regressionData.csv", Seq("col1 decimal", "col2 decimal"))
+    loadCSVIfNotExists(ddfName, "/regressionData.csv", Seq(s"col1 ${floatingType(engineName.toLowerCase)}", "col2 " +
+      s"${floatingType(engineName.toLowerCase)}"))
   }
 
   def loadRegressionTest(): DDF = {
@@ -105,7 +114,8 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def loadRatingsTrain(): DDF = {
-    loadCSVIfNotExists("user_ratings", "/ratings.csv", Seq("user_id int", "item_id int", "rating decimal"))
+    loadCSVIfNotExists("user_ratings", "/ratings.csv", Seq("user_id int", "item_id int",
+      s"rating ${floatingType(engineName.toLowerCase)}"))
   }
 
   def loadRatingsTest(): DDF = {

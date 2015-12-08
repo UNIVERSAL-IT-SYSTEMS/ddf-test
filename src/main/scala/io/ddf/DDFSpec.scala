@@ -42,7 +42,14 @@ with TransformationSpec with ViewSpec {
     }
   }
 
-  override val manager = DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor("postgres"))
+  def getManager = {
+    if(engine=="aws"||engine=="jdbc"||engine=="postgres")
+      DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engine))
+    else
+      DDFManager.get(DDFManager.EngineType.fromString(engineName))
+  }
+
+  override val manager = getManager
 
   def runMultiple(names: String) = {
     names.split(",").foreach(name => this.execute(name))

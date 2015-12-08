@@ -62,7 +62,6 @@ trait SchemaSpec extends BaseSpec with Matchers {
       val cols = Array(7, 8, 9, 10).map {
         idx => schemaHandler.getColumn(schemaHandler.getColumnName(idx))
       }
-      println("", cols.mkString(","))
       assert(cols(0).getOptionalFactor.getLevelCounts.get("1") === 14)
       assert(cols(0).getOptionalFactor.getLevelCounts.get("0") === 18)
       assert(cols(1).getOptionalFactor.getLevelCounts.get("1") === 13)
