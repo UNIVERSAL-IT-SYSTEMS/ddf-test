@@ -58,7 +58,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
 
     scenario("throw an error on aggregate without groups") {
       val airlineDDF = loadAirlineDDF()
-      val ddf = airlineDDF.sql2ddf("select * from airline")
+      val ddf = manager.sql2ddf("select * from airline", engineName)
       intercept[Exception] {
         ddf.getAggregationHandler.agg(List("mean=avg(ArrDelay)"))
       }

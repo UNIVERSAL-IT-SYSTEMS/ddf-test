@@ -20,13 +20,23 @@ package io.ddf
 
 import io.ddf.datasource.{JDBCDataSourceDescriptor, JDBCDataSourceCredentials, DataSourceURI}
 import io.ddf.misc.Config
-import org.scalatest.tools.Runner
+import org.scalatest.{BeforeAndAfterAll, ConfigMap}
 
-class DDFSpec(engine: String) extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
+class DDFSpec extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
-with TransformationSpec with ViewSpec {
+with TransformationSpec with ViewSpec with BeforeAndAfterAll {
 
-  override val engineName = engine
+  override lazy val engineName = engine
+
+  var engine: String = null
+
+  override def beforeAll() = {
+    engine = scala.util.Properties.envOrElse("DDFENGINE", "")
+  }
+
+  override def afterAll(): Unit = {
+    manager.sql2ddf("DELETE * from ", engineName)
+  }
 
   object EngineDescriptor {
     def apply(engine: String) = {
@@ -43,13 +53,13 @@ with TransformationSpec with ViewSpec {
   }
 
   def getManager = {
-    if(engine=="aws"||engine=="jdbc"||engine=="postgres")
-      DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engine))
+    if (engineName == "aws" || engineName == "jdbc" || engineName == "postgres")
+      DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engineName))
     else
       DDFManager.get(DDFManager.EngineType.fromString(engineName))
   }
 
-  override val manager = getManager
+  override lazy val manager = getManager
 
   def runMultiple(names: String) = {
     names.split(",").foreach(name => this.execute(name))

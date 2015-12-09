@@ -58,8 +58,8 @@ trait ViewSpec extends BaseSpec with Matchers {
 
 
     scenario("get top 3 rows") {
-      val sample = manager.sql2ddf("SELECT Month from airline")
-      manager.setDDFName(sample, "sample")
+      loadAirlineDDF()
+      val sample = manager.sql2ddf("SELECT Month from airline", engineName)
       sample.VIEWS.head(3) should have size (3)
     }
   }

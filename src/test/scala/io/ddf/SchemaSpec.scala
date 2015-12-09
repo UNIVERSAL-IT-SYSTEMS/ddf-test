@@ -76,7 +76,7 @@ trait SchemaSpec extends BaseSpec with Matchers {
     //TODO support cast
     /*scenario("test get factor with long column"){
       loadMtCarsDDF()
-      val ddf = manager.sql2ddf("select mpg, cast(cyl as bigint) as cyl from mtcars")
+      val ddf = manager.sql2ddf("select mpg, cast(cyl as bigint) as cyl from mtcars",engineName)
       ddf.getSchemaHandler.setAsFactor("cyl")
       ddf.getSchemaHandler.computeFactorLevelsAndLevelCounts()
       assert(ddf.getSchemaHandler.getColumn("cyl").getType == ColumnType.BIGINT)
@@ -100,7 +100,7 @@ trait SchemaSpec extends BaseSpec with Matchers {
     }
 
     scenario("test get factors for DDF with RDD[Array[Object]]") {
-      val ddf = manager.sql2ddf("select * from mtcars")
+      val ddf = manager.sql2ddf("select * from mtcars", engineName)
       //    ddf.getRepresentationHandler.remove(classOf[RDD[_]], classOf[TablePartition])
 
       val schemaHandler = ddf.getSchemaHandler
@@ -157,7 +157,7 @@ trait SchemaSpec extends BaseSpec with Matchers {
       assert(cols(5).getOptionalFactor.getLevelCounts.get("0") === 9.0)
       assert(cols(4).getOptionalFactor.getLevelCounts.get("3") === 1.0)
 
-      val ddf2 = manager.sql2ddf("select * from airlineWithNA")
+      val ddf2 = manager.sql2ddf("select * from airlineWithNA", engineName)
       //    ddf2.getRepresentationHandler.remove(classOf[RDD[_]], classOf[TablePartition])
 
       val schemaHandler2 = ddf2.getSchemaHandler

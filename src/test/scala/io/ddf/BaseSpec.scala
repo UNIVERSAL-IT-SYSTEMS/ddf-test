@@ -18,7 +18,7 @@
  */
 package io.ddf
 
-import org.scalatest.FeatureSpec
+import org.scalatest.{FeatureSpec, fixture}
 
 trait BaseSpec extends FeatureSpec {
   val manager: DDFManager
@@ -40,7 +40,8 @@ trait BaseSpec extends FeatureSpec {
                                  delimiter: Char = ',',
                                  isNullSetToDefault: Boolean = true): DDF = {
     try {
-      manager.getDDFByName(ddfName)
+      //manager.getDDFByName(ddfName)
+      manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     } catch {
       case e: Exception =>
         manager.sql(s"drop table if exists $ddfName cascade", engineName)
@@ -48,14 +49,15 @@ trait BaseSpec extends FeatureSpec {
         // manager.sql(s"create table $ddfName (${columns.mkString(",")}) row format delimited fields terminated by ' " +s"'", engineName)
 
         val filePath = getClass.getResource(fileName).getPath
-        val additionalOptions = if (!isNullSetToDefault) {
+        var additionalOptions = if (!isNullSetToDefault) {
           "WITH NULL '' NO DEFAULTS"
-        } else {
-          s"DELIMITED BY '$delimiter'"
         }
+        additionalOptions += s" DELIMITED BY '$delimiter'"
+
         manager.sql(s"load '$filePath' $additionalOptions INTO $ddfName", engineName)
         // manager.sql(s"LOAD DATA LOCAL INPATH '$filePath' INTO TABLE $ddfName", engineName)
-        manager.getDDFByName(ddfName)
+        //manager.getDDFByName(ddfName)
+        manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     }
   }
 

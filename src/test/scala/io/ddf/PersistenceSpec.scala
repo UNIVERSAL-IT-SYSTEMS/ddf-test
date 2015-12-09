@@ -40,9 +40,8 @@ trait PersistenceSpec extends BaseSpec with Matchers {
 
     }
 
-    scenario("persist and unpersist a flink DDF") {
+    scenario("persist and unpersist a DDF") {
       val ddf: DDF = manager.newDDF
-
       val uri: PersistenceUri = ddf.persist
       uri.getEngine.toLowerCase() should be(engineName)
       new File(uri.getPath).exists should be(true)
