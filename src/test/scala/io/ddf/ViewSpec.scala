@@ -25,17 +25,15 @@ trait ViewSpec extends BaseSpec with Matchers {
 
   feature("View") {
     scenario("project after remove columns ") {
-      val ddf = loadAirlineDDF
+      val ddf1 = loadAirlineDDF()
       val columns: java.util.List[String] = new java.util.ArrayList()
       columns.add("year")
       columns.add("month")
       columns.add("deptime")
-
-      val newddf1: DDF = ddf.VIEWS.removeColumn("year")
-      val newddf2: DDF = ddf.VIEWS.removeColumns("year", "deptime")
-      val newddf3: DDF = ddf.VIEWS.removeColumns(columns)
+      val ddf2 = loadAirlineDDF()
+      val newddf1: DDF = ddf1.VIEWS.removeColumn("year")
       newddf1.getNumColumns should be(28)
-      newddf2.getNumColumns should be(27)
+      val newddf3: DDF = ddf2.VIEWS.removeColumns(columns)
       newddf3.getNumColumns should be(26)
     }
 
@@ -50,7 +48,7 @@ trait ViewSpec extends BaseSpec with Matchers {
     }
 
     //This is not implemented for ddf-on-jdbc
-    ignore("test sample with percentage") {
+    scenario("test sample with percentage" ){
       val ddf = loadAirlineDDF()
       val sample = ddf.VIEWS.getRandomSample(0.5, false, 1)
       sample.VIEWS.head(3) should have size (3)

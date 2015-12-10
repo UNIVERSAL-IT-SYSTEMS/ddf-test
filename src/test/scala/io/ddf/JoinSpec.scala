@@ -36,9 +36,8 @@ trait JoinSpec extends BaseSpec with Matchers {
       distinctDDF.getNumRows should be(2) // only 2 values i.e 2008 and 2010 have values in both tables
     }
 
-    //The left semi inner join tables is not supported for ddf-on-jdbc
-    ignore("left semi join tables") {
-      val ddf: DDF = loadAirlineDDF
+    scenario("left semi join tables" ) {
+      val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val joinedDDF = ddf.join(ddf2, JoinType.LEFTSEMI, null, Collections.singletonList("Year"), Collections.singletonList("Year_num"))
       val distinctDDF = joinedDDF.sql2ddf("SELECT DISTINCT YEAR FROM " + joinedDDF.getName)
@@ -46,7 +45,7 @@ trait JoinSpec extends BaseSpec with Matchers {
     }
 
     scenario("left outer join tables") {
-      val ddf: DDF = loadAirlineDDF
+      val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val joinedDDF = ddf.join(ddf2, JoinType.LEFT, null, Collections.singletonList("Year"), Collections.singletonList("Year_num"))
       val distinctDDF = joinedDDF.sql2ddf("SELECT DISTINCT YEAR FROM " + joinedDDF.getName)
@@ -54,7 +53,7 @@ trait JoinSpec extends BaseSpec with Matchers {
     }
 
     scenario("right outer join tables") {
-      val ddf: DDF = loadAirlineDDF
+      val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val joinedDDF = ddf.join(ddf2, JoinType.RIGHT, null, Collections.singletonList("Year"), Collections.singletonList("Year_num"))
       val distinctDDF = joinedDDF.sql2ddf("SELECT DISTINCT YEAR FROM " + joinedDDF.getName)
@@ -62,7 +61,7 @@ trait JoinSpec extends BaseSpec with Matchers {
     }
 
     scenario("full outer join tables") {
-      val ddf: DDF = loadAirlineDDF
+      val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val joinedDDF = ddf.join(ddf2, JoinType.FULL, null, Collections.singletonList("Year"), Collections.singletonList("Year_num"))
       val distinctDDF = joinedDDF.sql2ddf("SELECT DISTINCT YEAR FROM " + joinedDDF.getName)

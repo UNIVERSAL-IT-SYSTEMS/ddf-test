@@ -28,7 +28,6 @@ trait StatisticsSpec extends BaseSpec with Matchers {
 
     scenario("calculate summary") {
       val ddf = loadAirlineDDF()
-
       val summaries = ddf.getSummary
       summaries.head.max() should be(2010)
 
@@ -93,10 +92,9 @@ trait StatisticsSpec extends BaseSpec with Matchers {
       first.getX should be(-24)
       first.getY should be(10.0)
     }
-
     // This test is unsupported for ddf-on-jdbc due to the sql statement distinct(column) used in getSimpleSummary
     //ddf-on-jdbc requires distinct on(column) as valid SQL
-    ignore("compute simple summary") {
+    scenario("compute simple summary") {
       val airlineDDF = loadAirlineDDFWithoutDefault()
 
       Array("Year", "Month", "DayofMonth", "UniqueCarrier").foreach(airlineDDF.setAsFactor)

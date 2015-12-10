@@ -18,111 +18,64 @@
  */
 package io.ddf
 
-import org.scalatest.{FeatureSpec, fixture}
+import io.ddf.util.ConfigHandler
+import com.google.common.base.Strings
+
+import org.scalatest.{FeatureSpec}
 
 trait BaseSpec extends FeatureSpec {
   val manager: DDFManager
   val engineName: String
-
+  val configHandler: ConfigHandler
 
   def loadMtCarsDDF(): DDF = {
     val ddfName: String = "mtcars"
-    loadCSVIfNotExists(ddfName, s"/$ddfName",
-      Seq(s"mpg ${floatingType(engineName.toLowerCase)}", "cyl int", s"disp ${floatingType(engineName.toLowerCase)}",
-        "hp int", s"drat ${floatingType(engineName.toLowerCase)}", s"wt ${floatingType(engineName.toLowerCase)}",
-        s"qsec ${floatingType(engineName.toLowerCase)}", "vs int", "am int", "gear int", "carb int"),
-      delimiter = ' ')
+    loadCSVIfNotExists(ddfName, s"/$ddfName")
   }
 
   private def loadCSVIfNotExists(ddfName: String,
-                                 fileName: String,
-                                 columns: Seq[String],
-                                 delimiter: Char = ',',
-                                 isNullSetToDefault: Boolean = true): DDF = {
+                                 fileName: String): DDF = {
     try {
-      //manager.getDDFByName(ddfName)
       manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     } catch {
       case e: Exception =>
-        manager.sql(s"drop table if exists $ddfName cascade", engineName)
-        manager.sql(s"create table $ddfName (${columns.mkString(",")})", engineName)
-        // manager.sql(s"create table $ddfName (${columns.mkString(",")}) row format delimited fields terminated by ' " +s"'", engineName)
+        manager.sql(getValue( "drop-" + ddfName), engineName)
+
+        manager.sql(getValue( "create-" + ddfName), engineName)
 
         val filePath = getClass.getResource(fileName).getPath
-        var additionalOptions = if (!isNullSetToDefault) {
-          "WITH NULL '' NO DEFAULTS"
-        }
-        additionalOptions += s" DELIMITED BY '$delimiter'"
 
-        manager.sql(s"load '$filePath' $additionalOptions INTO $ddfName", engineName)
-        // manager.sql(s"LOAD DATA LOCAL INPATH '$filePath' INTO TABLE $ddfName", engineName)
-        //manager.getDDFByName(ddfName)
+        manager.sql(getValue( "load-" + ddfName).replace("$filePath", s"$filePath"), engineName)
+
         manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     }
   }
 
-  val varcharType = Map("aws" -> "varchar", "jdbc" -> "varchar", "postgres" -> "varchar", "spark" -> "string", "flink" -> "string")
-  val floatingType = Map("aws" -> "decimal", "jdbc" -> "double", "postgres" -> "decimal", "spark" -> "double", "flink" -> "double")
-
-  private def airlineColumns = Seq("Year int", "Month int", "DayofMonth int", "DayofWeek int", "DepTime int",
-    "CRSDepTime int", "ArrTime int", "CRSArrTime int", s"UniqueCarrier ${varcharType(engineName.toLowerCase)}",
-    "FlightNum int", s"TailNum ${varcharType(engineName.toLowerCase)}", "ActualElapsedTime int", "CRSElapsedTime int",
-    "AirTime int", "ArrDelay int", "DepDelay int", s"Origin ${varcharType(engineName.toLowerCase)}",
-    s"Dest ${varcharType(engineName.toLowerCase)}", "Distance int", "TaxiIn int", "TaxiOut int", "Cancelled int",
-    s"CancellationCode ${varcharType(engineName.toLowerCase)}", s"Diverted ${varcharType(engineName.toLowerCase)}",
-    "CarrierDelay int", "WeatherDelay int", "NASDelay int", "SecurityDelay int", "LateAircraftDelay int")
-
-  def loadIrisTest(): DDF = {
-    val train = manager.getDDFByName("iris")
-    //train.sql2ddf("SELECT petal, septal FROM iris WHERE flower = 1.0000")
-    train.VIEWS.project("petal", "septal")
+  private def getValue(key: String) = {
+    val value = configHandler.getValue(engineName, key)
+    if (Strings.isNullOrEmpty(value)) configHandler.getValue("global", key)
+    else value
   }
 
   def loadAirlineDDF(): DDF = {
     val ddfName = "airline"
-    loadCSVIfNotExists(ddfName, s"/$ddfName.csv", airlineColumns)
+    loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
   }
 
   def loadAirlineDDFWithoutDefault(): DDF = {
     val ddfName = "airlineWithoutDefault"
-    loadCSVIfNotExists(ddfName, "/airline.csv", airlineColumns, isNullSetToDefault = false)
+    loadCSVIfNotExists(ddfName, "/airline.csv")
   }
 
   def loadAirlineNADDF(): DDF = {
     val ddfName = "airlineWithNA"
-    loadCSVIfNotExists(ddfName, s"/$ddfName.csv", airlineColumns, isNullSetToDefault = false)
+    loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
   }
 
 
   def loadYearNamesDDF(): DDF = {
     val ddfName = "year_names"
-    loadCSVIfNotExists(ddfName, s"/$ddfName.csv", Seq("Year_num int", s"Name ${varcharType(engineName.toLowerCase)}"))
-  }
-
-  def loadIrisTrain(): DDF = {
-    loadCSVIfNotExists("iris", "/fisheriris.csv", Seq(s"flower ${floatingType(engineName.toLowerCase)}", "petal " +
-      s"${floatingType(engineName.toLowerCase)}", s"septal ${floatingType(engineName.toLowerCase)}"))
-  }
-
-  def loadRegressionTrain(): DDF = {
-    val ddfName: String = "regression_data"
-    loadCSVIfNotExists(ddfName, "/regressionData.csv", Seq(s"col1 ${floatingType(engineName.toLowerCase)}", "col2 " +
-      s"${floatingType(engineName.toLowerCase)}"))
-  }
-
-  def loadRegressionTest(): DDF = {
-    val train = manager.getDDFByName("regression_data")
-    train.VIEWS.project("col2")
-  }
-
-  def loadRatingsTrain(): DDF = {
-    loadCSVIfNotExists("user_ratings", "/ratings.csv", Seq("user_id int", "item_id int",
-      s"rating ${floatingType(engineName.toLowerCase)}"))
-  }
-
-  def loadRatingsTest(): DDF = {
-    val train = manager.getDDFByName("user_ratings")
-    train.VIEWS.project("user_id", "item_id")
+    loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
   }
 
 

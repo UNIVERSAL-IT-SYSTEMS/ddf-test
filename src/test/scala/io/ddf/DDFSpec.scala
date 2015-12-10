@@ -20,22 +20,24 @@ package io.ddf
 
 import io.ddf.datasource.{JDBCDataSourceDescriptor, JDBCDataSourceCredentials, DataSourceURI}
 import io.ddf.misc.Config
-import org.scalatest.{BeforeAndAfterAll, ConfigMap}
+import io.ddf.util.ConfigHandler
+import org.scalatest.BeforeAndAfterAll
 
 class DDFSpec extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
 with TransformationSpec with ViewSpec with BeforeAndAfterAll {
 
-  override lazy val engineName = engine
+  //override val engineName = scala.util.Properties.envOrElse("DDF_ENGINE", "")
+  override val engineName = new ConfigHandler("ddf-conf","ddf_spec.ini").getValue("global","engine")
 
-  var engine: String = null
+  override val configHandler = new ConfigHandler("ddf-conf","ddf_spec.ini")
 
   override def beforeAll() = {
-    engine = scala.util.Properties.envOrElse("DDFENGINE", "")
+//
   }
 
   override def afterAll(): Unit = {
-    manager.sql2ddf("DELETE * from ", engineName)
+    //manager.sql2ddf("DELETE * from ", engineName)
   }
 
   object EngineDescriptor {
@@ -52,20 +54,18 @@ with TransformationSpec with ViewSpec with BeforeAndAfterAll {
     }
   }
 
-  def getManager = {
+  override val manager = {
     if (engineName == "aws" || engineName == "jdbc" || engineName == "postgres")
       DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engineName))
     else
       DDFManager.get(DDFManager.EngineType.fromString(engineName))
   }
 
-  override lazy val manager = getManager
-
   def runMultiple(names: String) = {
     names.split(",").foreach(name => this.execute(name))
   }
 
-  feature("copy") {
+  feature("copy" ) {
     //This feature is unsupported for ddf-on-jdbc
 
     scenario("factor columns should be copied") {
