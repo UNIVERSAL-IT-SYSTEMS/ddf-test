@@ -26,7 +26,7 @@ trait BinningSpec extends BaseSpec with Matchers {
 
   feature("Binning") {
     scenario("bin by equal interval") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, true, true)
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
@@ -40,7 +40,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by equal frequency") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALFREQ", 2, null, true, true)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
@@ -54,7 +54,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by custom interval") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "custom", 0, Array[Double](2, 4, 6, 8), true, true)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn("Month")
@@ -70,7 +70,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by equal interval excluding highest") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, true, false)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
@@ -85,7 +85,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by equal interval excluding lowest") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, false, true)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
@@ -100,7 +100,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by equal interval excluding lowest and highest") {
-      val monthColumnLabel = "month"
+      val monthColumnLabel = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, false, false)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)

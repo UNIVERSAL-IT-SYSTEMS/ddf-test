@@ -27,9 +27,9 @@ trait ViewSpec extends BaseSpec with Matchers {
     scenario("project after remove columns ") {
       val ddf1 = loadAirlineDDF()
       val columns: java.util.List[String] = new java.util.ArrayList()
-      columns.add("year")
-      columns.add("month")
-      columns.add("deptime")
+      columns.add("Year")
+      columns.add("Month")
+      columns.add("Deptime")
       val ddf2 = loadAirlineDDF()
       val newddf1: DDF = ddf1.VIEWS.removeColumn("year")
       newddf1.getNumColumns should be(28)

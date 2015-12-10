@@ -39,6 +39,7 @@ trait BaseSpec extends FeatureSpec {
       manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     } catch {
       case e: Exception =>
+        if(engineName != "flink")
         manager.sql(getValue( "drop-" + ddfName), engineName)
 
         manager.sql(getValue( "create-" + ddfName), engineName)

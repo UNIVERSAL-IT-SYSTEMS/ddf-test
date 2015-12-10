@@ -27,18 +27,9 @@ class DDFSpec extends BaseSpec with StatisticsSpec with BinningSpec with Aggrega
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
 with TransformationSpec with ViewSpec with BeforeAndAfterAll {
 
-  //override val engineName = scala.util.Properties.envOrElse("DDF_ENGINE", "")
   override val engineName = new ConfigHandler("ddf-conf","ddf_spec.ini").getValue("global","engine")
 
   override val configHandler = new ConfigHandler("ddf-conf","ddf_spec.ini")
-
-  override def beforeAll() = {
-//
-  }
-
-  override def afterAll(): Unit = {
-    //manager.sql2ddf("DELETE * from ", engineName)
-  }
 
   object EngineDescriptor {
     def apply(engine: String) = {
