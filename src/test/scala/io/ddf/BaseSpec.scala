@@ -41,7 +41,7 @@ trait BaseSpec extends FeatureSpec {
       case e: Exception =>
         if(engineName != "flink")
         manager.sql(getValue( "drop-" + ddfName), engineName)
-
+        
         manager.sql(getValue( "create-" + ddfName), engineName)
 
         val filePath = getClass.getResource(fileName).getPath
