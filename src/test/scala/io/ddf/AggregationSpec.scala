@@ -40,7 +40,6 @@ trait AggregationSpec extends BaseSpec with Matchers {
       val ddf = loadAirlineDDF()
       val l1: java.util.List[String] = List("DayofMonth")
       val l2: java.util.List[String] = List("avg(DepDelay)")
-
       val avgDelayByDay = ddf.groupBy(l1, l2)
       avgDelayByDay.getColumnNames.map(col => col.toLowerCase()) should (contain("dayofmonth"))
       avgDelayByDay.getColumnNames.size() should be (2)

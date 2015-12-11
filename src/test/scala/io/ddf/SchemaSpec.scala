@@ -52,7 +52,7 @@ trait SchemaSpec extends BaseSpec with Matchers {
       columns.asScala.head.getName.toLowerCase should be("year")
     }
 
-    scenario("test get factors on DDF with TablePartition") {
+    scenario("test get factors on DDF ") {
       val ddf = loadMtCarsDDF()
       val schemaHandler = ddf.getSchemaHandler
       Array(7, 8, 9, 10).foreach {
@@ -62,6 +62,7 @@ trait SchemaSpec extends BaseSpec with Matchers {
       val cols = Array(7, 8, 9, 10).map {
         idx => schemaHandler.getColumn(schemaHandler.getColumnName(idx))
       }
+      println("", cols.mkString(","))
       assert(cols(0).getOptionalFactor.getLevelCounts.get("1") === 14)
       assert(cols(0).getOptionalFactor.getLevelCounts.get("0") === 18)
       assert(cols(1).getOptionalFactor.getLevelCounts.get("1") === 13)
@@ -97,32 +98,6 @@ trait SchemaSpec extends BaseSpec with Matchers {
       assert(ddf.getSchemaHandler.getColumn("Origin").getType == ColumnType.STRING)
       assert(ddf.getSchemaHandler.getColumn("Origin").getColumnClass == ColumnClass.FACTOR)
       assert(ddf.getSchemaHandler.getColumn("Origin").getOptionalFactor.getLevelCounts.size() == 3)
-    }
-
-    scenario("test get factors for DDF with RDD[Array[Object]]") {
-      val ddf = manager.sql2ddf("select * from mtcars", engineName)
-      //    ddf.getRepresentationHandler.remove(classOf[RDD[_]], classOf[TablePartition])
-
-      val schemaHandler = ddf.getSchemaHandler
-
-      Array(7, 8, 9, 10).foreach {
-        idx => schemaHandler.setAsFactor(idx)
-      }
-      schemaHandler.computeFactorLevelsAndLevelCounts()
-
-      val cols2 = Array(7, 8, 9, 10).map {
-        idx => schemaHandler.getColumn(schemaHandler.getColumnName(idx))
-      }
-
-      assert(cols2(0).getOptionalFactor.getLevelCounts.get("1") === 14)
-      assert(cols2(0).getOptionalFactor.getLevelCounts.get("0") === 18)
-      assert(cols2(1).getOptionalFactor.getLevelCounts.get("1") === 13)
-      assert(cols2(2).getOptionalFactor.getLevelCounts.get("4") === 12)
-
-      assert(cols2(2).getOptionalFactor.getLevelCounts.get("3") === 15)
-      assert(cols2(2).getOptionalFactor.getLevelCounts.get("5") === 5)
-      assert(cols2(3).getOptionalFactor.getLevelCounts.get("1") === 7)
-      assert(cols2(3).getOptionalFactor.getLevelCounts.get("2") === 10)
     }
 
     scenario("test NA handling") {

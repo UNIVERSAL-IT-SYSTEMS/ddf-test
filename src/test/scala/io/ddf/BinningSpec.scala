@@ -70,7 +70,7 @@ trait BinningSpec extends BaseSpec with Matchers {
     }
 
     scenario("bin by equal interval excluding highest") {
-      val monthColumnLabel = "Month"
+      val monthColumnLabel: String = "Month"
       val newDDF: DDF = loadAirlineDDF().binning(monthColumnLabel, "EQUALINTERVAL", 2, null, true, false)
 
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
@@ -79,7 +79,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       monthColumn.getOptionalFactor.getLevelMap.size should be(2)
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("[1,6)") should be(24)
-      levelCounts.get("[6,11]") should be(6)
+      levelCounts.get("[6,11)") should be(6)
       levelCounts.values().asScala.reduce(_ + _) should be(30)
       newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (30)
     }

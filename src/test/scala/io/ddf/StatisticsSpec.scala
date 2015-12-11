@@ -96,7 +96,6 @@ trait StatisticsSpec extends BaseSpec with Matchers {
     //ddf-on-jdbc requires distinct on(column) as valid SQL
     scenario("compute simple summary") {
       val airlineDDF = loadAirlineDDFWithoutDefault()
-
       Array("Year", "Month", "DayofMonth", "UniqueCarrier").foreach(airlineDDF.setAsFactor)
       val simpleSummary = airlineDDF.getStatisticsSupporter.getSimpleSummary
 

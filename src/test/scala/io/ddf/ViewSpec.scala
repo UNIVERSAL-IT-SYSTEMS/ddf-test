@@ -31,7 +31,7 @@ trait ViewSpec extends BaseSpec with Matchers {
       columns.add("Month")
       columns.add("Deptime")
       val ddf2 = loadAirlineDDF()
-      val newddf1: DDF = ddf1.VIEWS.removeColumn("year")
+      val newddf1: DDF = ddf1.VIEWS.removeColumn("Year")
       newddf1.getNumColumns should be(28)
       val newddf3: DDF = ddf2.VIEWS.removeColumns(columns)
       newddf3.getNumColumns should be(26)
