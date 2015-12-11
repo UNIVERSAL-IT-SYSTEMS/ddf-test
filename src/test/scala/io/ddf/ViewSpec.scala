@@ -48,7 +48,7 @@ trait ViewSpec extends BaseSpec with Matchers {
     }
 
     //This is not implemented for ddf-on-jdbc
-    scenario("test sample with percentage" ){
+    scenario("test sample with percentage") {
       val ddf = loadAirlineDDF()
       val sample = ddf.VIEWS.getRandomSample(0.5, false, 1)
       sample.VIEWS.head(3) should have size (3)

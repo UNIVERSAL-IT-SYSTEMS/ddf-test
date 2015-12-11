@@ -35,21 +35,21 @@ trait JoinSpec extends BaseSpec with Matchers {
       val colNames = joinedDDF.getSchema.getColumnNames
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
-      colNames.contains("Name") || colNames.contains("r_name") should be(true)
-      joinedDDF.getNumRows should be (2)
-      joinedDDF.getNumColumns should be (31)
+      colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
+      joinedDDF.getNumRows should be(2)
+      joinedDDF.getNumColumns should be(31)
     }
 
-    scenario("left semi join tables" ) {
+    scenario("left semi join tables") {
       val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val joinedDDF = ddf.join(ddf2, JoinType.LEFTSEMI, null, Collections.singletonList("Year"), Collections.singletonList("Year_num"))
       val colNames = joinedDDF.getSchema.getColumnNames
-      colNames.contains("Year")|| colNames.contains("year") should be(true)
+      colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
-      colNames.contains("Name") || colNames.contains("r_name")should be(false)
-      joinedDDF.getNumRows should be (2)
-      joinedDDF.getNumColumns should be (29)
+      colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(false)
+      joinedDDF.getNumRows should be(2)
+      joinedDDF.getNumColumns should be(29)
     }
 
     scenario("left outer join tables") {
@@ -59,9 +59,9 @@ trait JoinSpec extends BaseSpec with Matchers {
       val colNames = joinedDDF.getSchema.getColumnNames
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
-      colNames.contains("Name") || colNames.contains("r_name")  should be(true)
-      joinedDDF.getNumRows should be (3)
-      joinedDDF.getNumColumns should be (31)
+      colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
+      joinedDDF.getNumRows should be(3)
+      joinedDDF.getNumColumns should be(31)
     }
 
     scenario("right outer join tables") {
@@ -71,9 +71,9 @@ trait JoinSpec extends BaseSpec with Matchers {
       val colNames = joinedDDF.getSchema.getColumnNames
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
-      colNames.contains("Name") || colNames.contains("r_name")  should be(true)
-      joinedDDF.getNumRows should be (4)
-      joinedDDF.getNumColumns should be (31)
+      colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
+      joinedDDF.getNumRows should be(4)
+      joinedDDF.getNumColumns should be(31)
     }
 
     scenario("full outer join tables") {
@@ -83,9 +83,9 @@ trait JoinSpec extends BaseSpec with Matchers {
       val colNames = joinedDDF.getSchema.getColumnNames
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
-      colNames.contains("Name") || colNames.contains("r_name")  should be(true)
-      joinedDDF.getNumRows should be (5)
-      joinedDDF.getNumColumns should be (31)
+      colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
+      joinedDDF.getNumRows should be(5)
+      joinedDDF.getNumColumns should be(31)
     }
   }
 

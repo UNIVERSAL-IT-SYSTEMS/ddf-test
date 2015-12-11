@@ -39,14 +39,14 @@ trait BaseSpec extends FeatureSpec {
       manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     } catch {
       case e: Exception =>
-        if(engineName != "flink")
-        manager.sql(getValue( "drop-" + ddfName), engineName)
-        
-        manager.sql(getValue( "create-" + ddfName), engineName)
+        if (engineName != "flink")
+          manager.sql(getValue("drop-" + ddfName), engineName)
+
+        manager.sql(getValue("create-" + ddfName), engineName)
 
         val filePath = getClass.getResource(fileName).getPath
 
-        manager.sql(getValue( "load-" + ddfName).replace("$filePath", s"$filePath"), engineName)
+        manager.sql(getValue("load-" + ddfName).replace("$filePath", s"$filePath"), engineName)
 
         manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
     }

@@ -3,36 +3,19 @@ Test suite for DDF
 
 ### Running test suite
 
-1. Add ddf-on-x implementation jar to `lib` directory
-2. Execute the tests in Scala console, using any of the following commands
+1. Add ddf-on-x implementation jar to `lib` directory. Make sure that there are no duplicate jars present. Remove
+scalatest and junit jars if added from ddf-on-x. Do not remove the asm-all-4.0.jar from the lib directory as it
+contains some essential classes required for the scalatest to generate a html report.
+
+2. Execute the tests in console
 
 ```
-$ sbt console
+$ sbt
 
 //to run all the tests
-scala> new io.ddf.DDFSpec(<engineName>) execute 
+sbt> test
 
-For example,
-scala> new io.ddf.DDFSpec("spark") execute
-
-//to run all the tests for specified handler
-scala> new io.ddf.DDFSpec(<engineName>) execute <handlerName> 
-
-For example,
-scala> new io.ddf.DDFSpec("spark") execute "Statistics" 
-
-//to run a specific test for given handler
-scala> new io.ddf.DDFSpec(<engineName>) execute <all or part of test name> 
-
-For example, to run just the BinningHandler's test for equal Interval
-scala> new io.ddf.DDFSpec("spark") execute "equal Interval" 
-
-
-//to run different multiple tests,
-scala> new io.ddf.DDFSpec(<engineName>) runMultiple <comma-separated names>
-
-scala> new io.ddf.DDFSpec("spark") runMultiple "equal interval,summary"
-
-scala> new io.ddf.DDFSpec("spark") runMultiple "Binning,Statistics"
+To open the Html Reports of the tests generated, open index.html from target/test-reports directory in a web browser.
+Clicking on the DDFSpec suite, will show the test reports.
 
 ```

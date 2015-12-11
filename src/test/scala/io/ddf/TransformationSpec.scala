@@ -28,14 +28,14 @@ trait TransformationSpec extends BaseSpec with Matchers {
 
   feature("Transformation") {
 
-    scenario("transform native Rserve" ) {
+    scenario("transform native Rserve") {
       val relevantData: DDF = loadAirlineDDF().VIEWS.project("Year", "Month", "DayofMonth", "DayofWeek", "DepTime", "CRSDepTime", "ArrTime", "CRSArrTime")
       val resultDDF = relevantData.Transform.transformNativeRserve("newcol = DepTime / ArrTime")
       resultDDF should not be null
       resultDDF.getColumnName(29) should be("newcol")
     }
 
-    scenario("transform native map reduce" ) {
+    scenario("transform native map reduce") {
 
       val mapFuncDef: String = "function(part) { keyval(key=part$Year, val=part$DayofWeek) }"
       val reduceFuncDef: String = "function(key, vv) { keyval.row(key=key, val=sum(vv)) }"

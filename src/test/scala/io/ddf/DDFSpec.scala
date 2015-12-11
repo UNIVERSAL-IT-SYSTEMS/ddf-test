@@ -27,9 +27,9 @@ class DDFSpec extends BaseSpec with StatisticsSpec with BinningSpec with Aggrega
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
 with TransformationSpec with ViewSpec {
 
-  override val engineName = new ConfigHandler("ddf-conf","ddf_spec.ini").getValue("global","engine")
+  override val engineName = new ConfigHandler("ddf-conf", "ddf_spec.ini").getValue("global", "engine")
 
-  override val configHandler = new ConfigHandler("ddf-conf","ddf_spec.ini")
+  override val configHandler = new ConfigHandler("ddf-conf", "ddf_spec.ini")
 
   object EngineDescriptor {
     def apply(engine: String) = {
@@ -56,7 +56,7 @@ with TransformationSpec with ViewSpec {
     names.split(",").foreach(name => this.execute(name))
   }
 
-  feature("copy" ) {
+  feature("copy") {
     //This feature is unsupported for ddf-on-jdbc
 
     scenario("factor columns should be copied") {
