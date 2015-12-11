@@ -25,7 +25,7 @@ import org.scalatest.BeforeAndAfterAll
 
 class DDFSpec extends BaseSpec with StatisticsSpec with BinningSpec with AggregationSpec with
 JoinSpec with MissingDataSpec with PersistenceSpec with SchemaSpec with SqlSpec
-with TransformationSpec with ViewSpec with BeforeAndAfterAll {
+with TransformationSpec with ViewSpec {
 
   override val engineName = new ConfigHandler("ddf-conf","ddf_spec.ini").getValue("global","engine")
 
