@@ -46,7 +46,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
       //  [1,1] -> 17--(1,11] -> 14
-      monthColumn.getOptionalFactor.getLevelMap.size should be(2)
+      newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("[1,1]") should be(17)
       levelCounts.values().asScala.reduce(_ + _) should be(31)
@@ -76,7 +76,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
       //  {"[1,6)" = 24,"[6,11)" = 6}
-      monthColumn.getOptionalFactor.getLevelMap.size should be(2)
+      newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("[1,6)") should be(24)
       levelCounts.get("[6,11)") should be(6)
@@ -91,7 +91,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
       //  {"(1,6]" = 9,"(6,11]" = 5}
-      monthColumn.getOptionalFactor.getLevelMap.size should be(2)
+      newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("(1,6]") should be(9)
       levelCounts.get("(6,11]") should be(5)
@@ -106,7 +106,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       val monthColumn: Column = newDDF.getSchemaHandler.getColumn(monthColumnLabel)
       monthColumn.getColumnClass should be(ColumnClass.FACTOR)
       //  {"(1,6)" = 7,"(6,11)" = 4}
-      monthColumn.getOptionalFactor.getLevelMap.size should be(2)
+      newDDF.getSchemaHandler.getColumn(monthColumnLabel).getOptionalFactor.getLevelMap.size should be(2)
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("(1,6)") should be(7)
       levelCounts.get("(6,11)") should be(4)
