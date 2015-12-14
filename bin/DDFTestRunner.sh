@@ -7,7 +7,7 @@ echo "Hello, welcome to ddf-test. This script will ask you choose an engine and 
 function Input(){
 
 echo ""
-echo "Choose your java options for tests (required for spark engine: -Dhive.metastore.warehouse.dir=/tmp/hive/warehouse )"
+echo "Choose your java options for tests (for spark: -Dhive.metastore.warehouse.dir=/tmp/hive/warehouse )"
 echo ""
 echo -n "Enter your java options and press [ENTER]: "
 read DDF_OPTIONS

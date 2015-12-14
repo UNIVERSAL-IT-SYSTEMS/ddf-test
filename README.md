@@ -22,7 +22,8 @@ $ sbt
 sbt> test
 ```
 
- Running the tests using the shell script.
+
+Running the tests using the shell script.
 
 ```
 $ bash bin/DDFTestRunner.sh
