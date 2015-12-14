@@ -1,3 +1,5 @@
+import sbt.IvyConsole.Dependencies
+
 organization := "io.ddf"
 
 name := "ddf-test"
@@ -19,4 +21,9 @@ libraryDependencies := Seq("io.ddf" %% "ddf_core" % "1.5.0-SNAPSHOT",
 
 parallelExecution in Test := false
 
+publishArtifact in(Test, packageBin) := true
+
+
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/test-reports")
+
+
