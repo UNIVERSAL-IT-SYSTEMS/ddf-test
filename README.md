@@ -3,7 +3,7 @@ Test suite for DDF
 
 ### Running test suite
 
-1. Change the engine in [global] section and queries for your engine in [your engine] section in ddf-conf/ddf_spec.ini. 
+ Change the engine in [global] section and queries for your engine in [your engine] section in ddf-conf/ddf_spec.ini. 
 Add a ddf.ini file for your engine. There are two ways to add the ddf-on-x jars:
 
   * Add ddf-on-x implementation jar to `lib` directory. Make sure that there are no duplicate jars present. Do not 
@@ -13,7 +13,7 @@ contains some essential classes required for the scalatest to generate a html re
   * Execute the shell script which takes the location of a directory which has the ddf-on-x jars. Do not include 
  scalatest and junit jars in this directory. 
 
-2. Running the tests in sbt console when the lib directory contains ddf-on-x jars.
+ Running the tests in sbt console when the lib directory contains ddf-on-x jars.
 
 ```
 $ sbt
@@ -22,7 +22,7 @@ $ sbt
 sbt> test
 ```
 
-3. Running the tests using the shell script.
+ Running the tests using the shell script.
 
 ```
 $ bash bin/DDFTestRunner.sh
