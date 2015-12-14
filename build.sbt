@@ -23,7 +23,6 @@ parallelExecution in Test := false
 
 publishArtifact in(Test, packageBin) := true
 
-
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/test-reports")
 
 

@@ -3,7 +3,8 @@ Test suite for DDF
 
 ### Running test suite
 
-1. There are two ways to add the ddf-on-x jars:
+1. Change the engine in [global] and queries for your engine in [your engine] in ddf-conf/ddf_spec.ini.
+There are two ways to add the ddf-on-x jars:
 
 * Add ddf-on-x implementation jar to `lib` directory. Make sure that there are no duplicate jars present. Remove
 scalatest and junit jars if added from ddf-on-x. Do not remove the asm-all-4.0.jar from the lib directory as it
