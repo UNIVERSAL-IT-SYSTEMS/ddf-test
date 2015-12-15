@@ -35,10 +35,10 @@ trait BaseSpec extends FeatureSpec {
 
   val engineName: String = configHandler.getValue("global", "engine")
 
-  private val className = getValue("baseSpec")
+  val baseSpec = getValue("baseSpec")
 
   val manager: DDFManager = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       if (engineName == "aws" || engineName == "jdbc" || engineName == "postgres")
         DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engineName))
       else
@@ -49,7 +49,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def EngineDescriptor(engine: String) = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val USER = "jdbcUser"
       val PASSWORD = "jdbcPassword"
       val URL = "jdbcUrl"
@@ -65,7 +65,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def loadMtCarsDDF(): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val ddfName: String = "mtcars"
       loadCSVIfNotExists(ddfName, s"/$ddfName")
     }
@@ -74,7 +74,7 @@ trait BaseSpec extends FeatureSpec {
 
   private def loadCSVIfNotExists(ddfName: String,
                                  fileName: String): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       try {
         manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
       } catch {
@@ -101,7 +101,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def loadAirlineDDF(): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val ddfName = "airline"
       loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
     }
@@ -109,7 +109,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def loadAirlineDDFWithoutDefault(): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val ddfName = "airlineWithoutDefault"
       loadCSVIfNotExists(ddfName, "/airline.csv")
     }
@@ -117,7 +117,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   def loadAirlineNADDF(): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val ddfName = "airlineWithNA"
       loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
     }
@@ -126,7 +126,7 @@ trait BaseSpec extends FeatureSpec {
 
 
   def loadYearNamesDDF(): DDF = {
-    if (className == THIS_TRAIT) {
+    if (baseSpec == THIS_TRAIT) {
       val ddfName = "year_names"
       loadCSVIfNotExists(ddfName, s"/$ddfName.csv")
     }
@@ -134,8 +134,8 @@ trait BaseSpec extends FeatureSpec {
   }
 
   private def getDef(name: String, args: Any*) = {
-    val runtimeMirror = ru.runtimeMirror(Class.forName(className).getClassLoader)
-    val moduleSymbol = runtimeMirror.moduleSymbol(Class.forName(className))
+    val runtimeMirror = ru.runtimeMirror(Class.forName(baseSpec).getClassLoader)
+    val moduleSymbol = runtimeMirror.moduleSymbol(Class.forName(baseSpec))
 
     val targetMethod = moduleSymbol.typeSignature
       .members
