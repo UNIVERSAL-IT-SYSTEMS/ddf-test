@@ -3,11 +3,14 @@ Test suite for DDF
 
 ### Running test suite
 
-Change the engine in [global] section and queries for your engine in [your engine] section in ddf-conf/ddf_spec.ini.
- You can also create your own BaseSpec and then add its name to the baseSpec filed in [your engine] section. An 
- example baseSpec for AWS engine known as BaseSpecAWS is given. To use this baseSpecAWS add the AWS assembly jars and uncomment the lines corresponding to the same in baseSpecAWS.
+Change the engine in [global] section and queries for your engine in [your engine] section in ddf-conf/ddf_spec.ini. 
+Add a ddf.ini file for your engine.
+
+You can also create your own BaseSpec and then add its name to the baseSpec field in [your engine] section. An 
+example baseSpec for AWS engine known as BaseSpecAWS is given. To use this baseSpecAWS add the AWS assembly jars and
+uncomment the lines corresponding to the same in baseSpecAWS.
   
-Add a ddf.ini file for your engine. There are two ways to add the ddf-on-x jars:
+There are two ways to add the ddf-on-x jars:
   * Execute the shell script which takes the location of a directory which has the ddf-on-x jars.
   * Add ddf-on-x implementation jar to `lib` directory. 
 
