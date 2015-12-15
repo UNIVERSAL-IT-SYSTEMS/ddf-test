@@ -16,8 +16,9 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
+import io.ddf.DDF
 import org.scalatest.{Matchers}
 import scala.collection.JavaConverters._
 

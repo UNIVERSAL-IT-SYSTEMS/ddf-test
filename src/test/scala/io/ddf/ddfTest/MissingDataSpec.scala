@@ -16,8 +16,9 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
+import io.ddf.DDF
 import io.ddf.etl.IHandleMissingData.{NAChecking, Axis}
 import io.ddf.exception.DDFException
 import io.ddf.types.AggregateTypes.AggregateFunction

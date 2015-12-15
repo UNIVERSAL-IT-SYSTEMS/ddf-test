@@ -12,7 +12,7 @@ echo ""
 echo -n "Enter your java options and press [ENTER]: "
 read DDF_OPTIONS
 echo ""
-echo -n "Enter your ddf-on-x jar's destination and press [ENTER]: "
+echo -n "Enter your ddf-on-x jar's location and press [ENTER]: "
 read DDF_JARS
 
 }
@@ -23,12 +23,19 @@ SBT_OPTS="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSiz
 rm -r "./metastore_db/"
 rm -r "/tmp/hive/"
 
-
-java $SBT_OPTS -jar "./bin/sbt-launch.jar" \
-'set unmanagedJars in Test := ((file("'$DDF_JARS'") +++ file("./lib")) ** "*.jar").classpath' \
-'set javaOptions in Test ++= Seq("'$DDF_OPTIONS'") ' \
-'test'
-
+if [ "$DDF_OPTIONS" = "" ]
+then
+   java $SBT_OPTS -jar "./bin/sbt-launch.jar" \
+   'set unmanagedJars in Compile := ((file("'$DDF_JARS'") +++ file("./lib")) ** "*.jar").classpath' \
+   'set unmanagedJars in Test := ((file("'$DDF_JARS'") +++ file("./lib")) ** "*.jar").classpath' \
+   'test'
+else
+   java $SBT_OPTS -jar "./bin/sbt-launch.jar" \
+   'set unmanagedJars in Compile := ((file("'$DDF_JARS'") +++ file("./lib")) ** "*.jar").classpath' \
+   'set unmanagedJars in Test := ((file("'$DDF_JARS'") +++ file("./lib")) ** "*.jar").classpath' \
+   'set javaOptions in Test ++= Seq("'$DDF_OPTIONS'") ' \
+   'test'
+fi
 }
 
 function Main(){

@@ -16,9 +16,10 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
 import java.io.File
+import io.ddf.DDF
 import io.ddf.content.APersistenceHandler.PersistenceUri
 
 import scala.collection.JavaConverters._

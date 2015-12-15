@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
 import io.ddf.exception.DDFException
 import io.ddf.types.AggregateTypes.AggregateFunction

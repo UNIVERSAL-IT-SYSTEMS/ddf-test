@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
 import org.scalatest.{Matchers}
 import io.ddf.content.Schema.{Column, ColumnClass, ColumnType}

@@ -16,21 +16,50 @@
  * limitations under the License.
  *
  */
-package io.ddf
 
+package io.ddf.ddfTest
+
+import io.ddf.{DDFManager, DDF}
+//import io.ddf.aws.ExtJDBCDataSourceDescriptor
+import io.ddf.datasource.{JDBCDataSourceDescriptor, JDBCDataSourceCredentials, DataSourceURI}
+import io.ddf.misc.Config
 import io.ddf.util.ConfigHandler
 import com.google.common.base.Strings
 
 import org.scalatest.{FeatureSpec}
 
-trait BaseSpec extends FeatureSpec {
-  val manager: DDFManager
-  val engineName: String
-  val configHandler: ConfigHandler
+object BaseSpecAWS extends FeatureSpec {
+
+  val configHandler: ConfigHandler = new ConfigHandler("ddf-conf", "ddf_spec.ini")
+
+  val engineName: String = configHandler.getValue("global", "engine")
 
   def loadMtCarsDDF(): DDF = {
     val ddfName: String = "mtcars"
     loadCSVIfNotExists(ddfName, s"/$ddfName")
+  }
+
+  def manager: DDFManager = {
+    if (engineName == "aws" || engineName == "jdbc" || engineName == "postgres")
+      DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engineName))
+    else
+      DDFManager.get(DDFManager.EngineType.fromString(engineName))
+  }
+
+  def EngineDescriptor(engine: String) = {
+    val USER = "jdbcUser"
+    val PASSWORD = "jdbcPassword"
+    val URL = "jdbcUrl"
+    val user = Config.getValue(engine, USER)
+    val password = Config.getValue(engine, PASSWORD)
+    val jdbcUrl = Config.getValue(engine, URL)
+    val dataSourceURI = new DataSourceURI(jdbcUrl)
+    val credentials = new JDBCDataSourceCredentials(user, password)
+    val engineDescriptor = new JDBCDataSourceDescriptor(dataSourceURI, credentials, null)
+    /*if (engine == "aws")
+      new ExtJDBCDataSourceDescriptor(engineDescriptor.getDataSourceUri, engineDescriptor.getCredentials, new java.util.HashMap())
+    else*/
+      engineDescriptor
   }
 
   private def loadCSVIfNotExists(ddfName: String,
@@ -81,3 +110,4 @@ trait BaseSpec extends FeatureSpec {
 
 
 }
+

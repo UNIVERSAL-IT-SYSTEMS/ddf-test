@@ -16,7 +16,7 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
 import io.ddf.analytics.{NumericSimpleSummary, CategoricalSimpleSummary, AStatisticsSupporter}
 import org.scalactic.TolerantNumerics

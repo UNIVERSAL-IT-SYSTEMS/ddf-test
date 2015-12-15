@@ -16,10 +16,11 @@
  * limitations under the License.
  *
  */
-package io.ddf
+package io.ddf.ddfTest
 
 import java.util.Collections
 
+import io.ddf.DDF
 import io.ddf.etl.Types.JoinType
 import org.scalatest.{Matchers}
 
