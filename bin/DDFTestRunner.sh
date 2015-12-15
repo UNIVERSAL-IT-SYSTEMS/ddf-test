@@ -9,19 +9,16 @@ function Input(){
 echo ""
 echo "Choose your java options for tests (for spark: -Dhive.metastore.warehouse.dir=/tmp/hive/warehouse )"
 echo ""
-echo -n "Enter your java options and press [ENTER]: "
+echo -n "Enter your java options or leave blank and press [ENTER]: "
 read DDF_OPTIONS
 echo ""
-echo -n "Enter your ddf-on-x jar's location and press [ENTER]: "
+echo -n "Enter your ddf-on-x jar's location(required) and press [ENTER]: "
 read DDF_JARS
 
 }
 
 function Run(){
 SBT_OPTS="-Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"
-
-rm -r "./metastore_db/"
-rm -r "/tmp/hive/"
 
 if [ "$DDF_OPTIONS" = "" ]
 then
