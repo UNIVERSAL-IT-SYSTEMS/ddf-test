@@ -73,7 +73,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   private def loadCSVIfNotExists(ddfName: String,
-                                 fileName: String, extraArgs: Any*): DDF = {
+                                 fileName: String): DDF = {
     if (baseSpec == THIS_TRAIT) {
       try {
         manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
@@ -91,7 +91,7 @@ trait BaseSpec extends FeatureSpec {
           manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
       }
     }
-    else getDef("loadCSVIfNotExists", ddfName, fileName, extraArgs: _*).asInstanceOf[DDF]
+    else getDef("loadCSVIfNotExists", ddfName, fileName).asInstanceOf[DDF]
   }
 
   def getValue(key: String) = {
