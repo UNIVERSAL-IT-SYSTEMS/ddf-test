@@ -50,8 +50,13 @@ Clicking on the DDFSpec suite, will show the test reports.
 
 ### Note:
 * For spark implementation, before running tests, you may need to execute the following to remove files:
-  rm -r "./metastore_db/"
-  rm -r "/tmp/hive/"
+
+```
+$ rm -r "./metastore_db/"
+$ rm -r "/tmp/hive/"
+
+```
+
 * Make sure that there are no duplicate jars present when adding jars to `lib` directory or when giving the jar 
   directory in the shell script. Do not include scalatest and junit jars . Do not remove the asm-all-4.0.jar from the lib directory as it
   contains some essential classes required for the scalatest to generate a html report.

@@ -40,7 +40,7 @@ trait BaseSpec extends FeatureSpec {
   val manager: DDFManager = {
     if (baseSpec == THIS_TRAIT) {
       if (engineName == "aws" || engineName == "jdbc" || engineName == "postgres")
-        DDFManager.get(DDFManager.EngineType.fromString(engineName), EngineDescriptor(engineName))
+        DDFManager.get(DDFManager.EngineType.fromString(engineName), getEngineDescriptor(engineName))
       else
         DDFManager.get(DDFManager.EngineType.fromString(engineName))
     }
@@ -48,7 +48,7 @@ trait BaseSpec extends FeatureSpec {
       getDef("manager").asInstanceOf[DDFManager]
   }
 
-  def EngineDescriptor(engine: String) = {
+  def getEngineDescriptor(engine: String) = {
     if (baseSpec == THIS_TRAIT) {
       val USER = "jdbcUser"
       val PASSWORD = "jdbcPassword"
@@ -61,7 +61,7 @@ trait BaseSpec extends FeatureSpec {
       new JDBCDataSourceDescriptor(dataSourceURI, credentials, null)
     }
     else
-      getDef("EngineDescriptor").asInstanceOf[DataSourceDescriptor]
+      getDef("getEngineDescriptor").asInstanceOf[DataSourceDescriptor]
   }
 
   def loadMtCarsDDF(): DDF = {
@@ -73,7 +73,7 @@ trait BaseSpec extends FeatureSpec {
   }
 
   private def loadCSVIfNotExists(ddfName: String,
-                                 fileName: String): DDF = {
+                                 fileName: String, extraArgs: Any*): DDF = {
     if (baseSpec == THIS_TRAIT) {
       try {
         manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
@@ -91,7 +91,7 @@ trait BaseSpec extends FeatureSpec {
           manager.sql2ddf(s"SELECT * FROM $ddfName", engineName)
       }
     }
-    else getDef("loadCSVIfNotExists", ddfName, fileName).asInstanceOf[DDF]
+    else getDef("loadCSVIfNotExists", ddfName, fileName, extraArgs: _*).asInstanceOf[DDF]
   }
 
   def getValue(key: String) = {
