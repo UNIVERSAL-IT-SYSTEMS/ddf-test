@@ -53,7 +53,7 @@ Clicking on the DDFSpec suite, will show the test reports.
 
 ```
 $ rm -r "./metastore_db/"
-$ rm -r "/tmp/hive/"
+$ rm -r "/tmp/hive/"  //Run this if you used the java options for hive metastore directory for spark
 
 ```
 
