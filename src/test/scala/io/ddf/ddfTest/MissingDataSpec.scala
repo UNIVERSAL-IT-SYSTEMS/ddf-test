@@ -22,7 +22,7 @@ import io.ddf.DDF
 import io.ddf.etl.IHandleMissingData.{NAChecking, Axis}
 import io.ddf.exception.DDFException
 import io.ddf.types.AggregateTypes.AggregateFunction
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 
 import scala.collection.JavaConversions._
 
@@ -40,39 +40,39 @@ trait MissingDataSpec extends BaseSpec with Matchers {
     }
 
     scenario("keep all the rows when drop threshold is high") {
-      val result = loadAirlineNADDF.getMissingDataHandler.dropNA(Axis.ROW, NAChecking.ALL, 10, null)
+      val result = loadAirlineNADDF().getMissingDataHandler.dropNA(Axis.ROW, NAChecking.ALL, 10, null)
       result.getNumRows should be(31)
     }
 
     scenario("throw an exception when drop threshold > columns") {
       intercept[DDFException] {
-        loadAirlineNADDF.getMissingDataHandler.dropNA(Axis.ROW, NAChecking.ANY, 31, null)
+        loadAirlineNADDF().getMissingDataHandler.dropNA(Axis.ROW, NAChecking.ANY, 31, null)
       }
     }
 
     scenario("drop all columns with NA values") {
-      val result = loadAirlineNADDF.dropNA(Axis.COLUMN)
+      val result = loadAirlineNADDF().dropNA(Axis.COLUMN)
       result.getNumColumns should be(22)
     }
 
     scenario("drop all columns with NA values with load table") {
-      val result = loadAirlineNADDF.dropNA(Axis.COLUMN)
+      val result = loadAirlineNADDF().dropNA(Axis.COLUMN)
       result.getNumColumns should be(22)
     }
 
     scenario("keep all the columns") {
-      val result = loadAirlineNADDF.getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ALL, 0, null)
+      val result = loadAirlineNADDF().getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ALL, 0, null)
       result.getNumColumns should be(29)
     }
 
     scenario("keep most(24) columns when drop threshold is high(20)") {
-      val result = loadAirlineNADDF.getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ALL, 20, null)
+      val result = loadAirlineNADDF().getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ALL, 20, null)
       result.getNumColumns should be(24)
     }
 
     scenario("throw an exception when drop threshold > rows") {
       intercept[DDFException] {
-        loadAirlineNADDF.getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ANY, 40, null)
+        loadAirlineNADDF().getMissingDataHandler.dropNA(Axis.COLUMN, NAChecking.ANY, 40, null)
       }
     }
 
@@ -97,7 +97,7 @@ trait MissingDataSpec extends BaseSpec with Matchers {
       val ddf = loadAirlineDDF()
       val ddf1: DDF = ddf.VIEWS.project(List("Year", "SecurityDelay", "LateAircraftDelay"))
       val result = ddf1.getMissingDataHandler.fillNA(null, null, 0, AggregateFunction.MEAN, null, null)
-      result should not be (null)
+      result should not be null
     }
   }
 

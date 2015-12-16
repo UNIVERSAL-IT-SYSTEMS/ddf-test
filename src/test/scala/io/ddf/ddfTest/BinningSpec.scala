@@ -37,7 +37,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       levelCounts.get("[1,6]") should be(26)
       levelCounts.get("(6,11]") should be(5)
       levelCounts.values().asScala.reduce(_ + _) should be(31)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (31)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 31
     }
 
     scenario("bin by equal frequency") {
@@ -51,7 +51,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       val levelCounts: java.util.Map[String, Integer] = monthColumn.getOptionalFactor.getLevelCounts
       levelCounts.get("[1,1]") should be(17)
       levelCounts.values().asScala.reduce(_ + _) should be(31)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (31)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 31
     }
 
     scenario("bin by custom interval") {
@@ -67,7 +67,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       levelCounts.get("(4,6]") should be(3)
       levelCounts.get("(6,8]") should be(2)
       levelCounts.values().asScala.reduce(_ + _) should be(11)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (11)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 11
     }
 
     scenario("bin by equal interval excluding highest") {
@@ -82,7 +82,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       levelCounts.get("[1,6)") should be(24)
       levelCounts.get("[6,11)") should be(6)
       levelCounts.values().asScala.reduce(_ + _) should be(30)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (30)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 30
     }
 
     scenario("bin by equal interval excluding lowest") {
@@ -97,7 +97,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       levelCounts.get("(1,6]") should be(9)
       levelCounts.get("(6,11]") should be(5)
       levelCounts.values().asScala.reduce(_ + _) should be(14)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (14)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 14
     }
 
     scenario("bin by equal interval excluding lowest and highest") {
@@ -112,7 +112,7 @@ trait BinningSpec extends BaseSpec with Matchers {
       levelCounts.get("(1,6)") should be(7)
       levelCounts.get("(6,11)") should be(4)
       levelCounts.values().asScala.reduce(_ + _) should be(11)
-      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size (11)
+      newDDF.sql(s"select $monthColumnLabel from @this", "").getRows should have size 11
     }
   }
 

@@ -19,15 +19,14 @@
 package io.ddf.ddfTest
 
 import io.ddf.DDF
-import org.scalatest.{Matchers}
-import scala.collection.JavaConverters._
+import org.scalatest.Matchers
 
 trait SqlSpec extends BaseSpec with Matchers {
 
   feature("Sql") {
     scenario("create table and load data from file") {
-      val ddf = loadAirlineDDF
-      ddf.getColumnNames should have size (29)
+      val ddf = loadAirlineDDF()
+      ddf.getColumnNames should have size 29
 
       //MetaDataHandler
       ddf.getNumRows should be(31)
@@ -42,47 +41,47 @@ trait SqlSpec extends BaseSpec with Matchers {
     }
 
     scenario("run a simple sql command") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf1 = manager.sql2ddf("select Year,Month from airline", engineName)
       ddf1.getNumColumns should be(2)
     }
 
     scenario("run a sql command with where") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf1 = manager.sql2ddf("select Year,Month from airline where Year > 2008 AND Month > 1", engineName)
       ddf1.getNumRows should be(1)
       ddf1.getNumColumns should be(2)
     }
 
     scenario("run a sql command with a join") {
-      val ddf: DDF = loadAirlineDDF
+      val ddf: DDF = loadAirlineDDF()
       val ddf2: DDF = loadYearNamesDDF()
       val ddf3 = manager.sql2ddf("select Year,Month from airline join year_names on (Year = Year_num) ", engineName)
       val ddf4 = manager.sql2ddf("select Year,Month from airline left join year_names on (Year = Year_num) ", engineName)
     }
 
     scenario("run a sql command with a join and where") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf4 = manager.sql2ddf("select Year,Month from airline left join year_names on (Year = Year_num) where " +
         "Year_num > 2008 ", engineName)
 
     }
 
     scenario("run a sql command with an orderby") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf4 = manager.sql2ddf("select Year,Month from airline order by Year DESC", engineName)
       ddf4.getNumColumns should be(2)
     }
 
     scenario("run a sql command with an orderby and limit") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf4 = manager.sql2ddf("select Year,Month from airline order by Year DESC limit 2", engineName)
       ddf4.getNumRows should be(2)
       ddf4.getNumColumns should be(2)
     }
 
     scenario("run a sql command with a group-by and order-by and limit") {
-      val ddf = loadAirlineDDF
+      val ddf = loadAirlineDDF()
       val ddf4 = manager.sql2ddf("select Year,Month,Count(Cancelled) from airline group by Year,Month order by Year " +
         "DESC limit 5", engineName)
     }

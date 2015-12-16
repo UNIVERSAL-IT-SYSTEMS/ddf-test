@@ -18,9 +18,8 @@
  */
 package io.ddf.ddfTest
 
-import io.ddf.exception.DDFException
 import io.ddf.types.AggregateTypes.AggregateFunction
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 import scala.collection.JavaConversions._
 
 trait AggregationSpec extends BaseSpec with Matchers {
@@ -41,7 +40,7 @@ trait AggregationSpec extends BaseSpec with Matchers {
       val l1: java.util.List[String] = List("DayofMonth")
       val l2: java.util.List[String] = List("avg(DepDelay)")
       val avgDelayByDay = ddf.groupBy(l1, l2)
-      avgDelayByDay.getColumnNames.map(col => col.toLowerCase()) should (contain("dayofmonth"))
+      avgDelayByDay.getColumnNames.map(col => col.toLowerCase()) should contain("dayofmonth")
       avgDelayByDay.getColumnNames.size() should be(2)
       val rows = avgDelayByDay.sql("select * from @this", "").getRows
       rows.head.split("\t").head.toDouble should be(21.0 +- 1.0)

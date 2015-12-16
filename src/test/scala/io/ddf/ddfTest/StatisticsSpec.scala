@@ -20,7 +20,7 @@ package io.ddf.ddfTest
 
 import io.ddf.analytics.{NumericSimpleSummary, CategoricalSimpleSummary, AStatisticsSupporter}
 import org.scalactic.TolerantNumerics
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 
 trait StatisticsSpec extends BaseSpec with Matchers {
 

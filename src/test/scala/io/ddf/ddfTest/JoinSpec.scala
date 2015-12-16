@@ -22,9 +22,7 @@ import java.util.Collections
 
 import io.ddf.DDF
 import io.ddf.etl.Types.JoinType
-import org.scalatest.{Matchers}
-
-import scala.collection.JavaConversions._
+import org.scalatest.Matchers
 
 trait JoinSpec extends BaseSpec with Matchers {
 

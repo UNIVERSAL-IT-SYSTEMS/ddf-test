@@ -21,7 +21,7 @@ package io.ddf.ddfTest
 import io.ddf.DDF
 import io.ddf.analytics.Summary
 import io.ddf.content.Schema.ColumnType
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 
 import scala.collection.JavaConversions._
 
@@ -59,14 +59,14 @@ trait TransformationSpec extends BaseSpec with Matchers {
       val newddf0: DDF = relevantData.Transform.transformScaleMinMax
       val summaryArr: Array[Summary] = newddf0.getSummary
       println("result summary is" + summaryArr(0))
-      summaryArr(0).min should be < (1.0)
+      summaryArr(0).min should be < 1.0
       summaryArr(0).max should be(1.0)
     }
 
     ignore("transform scale standard") {
       val relevantData: DDF = loadAirlineDDF().VIEWS.project("Year", "Month", "DayofMonth", "DayofWeek", "DepTime", "CRSDepTime", "ArrTime", "CRSArrTime")
       val newDDF: DDF = relevantData.Transform.transformScaleStandard()
-      newDDF.getNumRows() should be(31)
+      newDDF.getNumRows should be(31)
       newDDF.getSummary.length should be(8)
     }
   }

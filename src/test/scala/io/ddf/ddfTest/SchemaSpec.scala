@@ -18,7 +18,7 @@
  */
 package io.ddf.ddfTest
 
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 import io.ddf.content.Schema.{Column, ColumnClass, ColumnType}
 
 import scala.collection.JavaConverters._

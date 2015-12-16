@@ -23,7 +23,7 @@ import io.ddf.DDF
 import io.ddf.content.APersistenceHandler.PersistenceUri
 
 import scala.collection.JavaConverters._
-import org.scalatest.{Matchers}
+import org.scalatest.Matchers
 
 trait PersistenceSpec extends BaseSpec with Matchers {
 
@@ -33,10 +33,10 @@ trait PersistenceSpec extends BaseSpec with Matchers {
 
       val namespaces = ddf.getPersistenceHandler.listNamespaces
 
-      namespaces should not be (null)
+      namespaces should not be null
       for (namespace <- namespaces.asScala) {
         val ddfs = ddf.getPersistenceHandler.listItems(namespace)
-        ddfs should not be (null)
+        ddfs should not be null
       }
 
     }
@@ -45,8 +45,8 @@ trait PersistenceSpec extends BaseSpec with Matchers {
       val ddf: DDF = manager.newDDF
       val uri: PersistenceUri = ddf.persist
       uri.getEngine.toLowerCase() should be(engineName)
-      new File(uri.getPath).exists should be(true)
-      ddf.unpersist
+      new File(uri.getPath).exists should be (true)
+      ddf.unpersist()
     }
   }
 
