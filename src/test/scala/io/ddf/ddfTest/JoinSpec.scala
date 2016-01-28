@@ -35,7 +35,7 @@ trait JoinSpec extends BaseSpec with Matchers {
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
       colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
-      joinedDDF.getNumRows should be(2)
+      joinedDDF.getNumRows should be(30)
       joinedDDF.getNumColumns should be(31)
     }
 
@@ -47,7 +47,7 @@ trait JoinSpec extends BaseSpec with Matchers {
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
       colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(false)
-      joinedDDF.getNumRows should be(2)
+      joinedDDF.getNumRows should be(30)
       joinedDDF.getNumColumns should be(29)
     }
 
@@ -59,7 +59,7 @@ trait JoinSpec extends BaseSpec with Matchers {
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
       colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
-      joinedDDF.getNumRows should be(3)
+      joinedDDF.getNumRows should be(31)
       joinedDDF.getNumColumns should be(31)
     }
 
@@ -71,7 +71,7 @@ trait JoinSpec extends BaseSpec with Matchers {
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
       colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
-      joinedDDF.getNumRows should be(4)
+      joinedDDF.getNumRows should be(32)
       joinedDDF.getNumColumns should be(31)
     }
 
@@ -83,7 +83,7 @@ trait JoinSpec extends BaseSpec with Matchers {
       colNames.contains("Year") || colNames.contains("year") should be(true)
       //check if the names from second ddf have been added to the schema
       colNames.contains("Name") || colNames.contains("r_name") || colNames.contains("name") should be(true)
-      joinedDDF.getNumRows should be(5)
+      joinedDDF.getNumRows should be(33)
       joinedDDF.getNumColumns should be(31)
     }
   }

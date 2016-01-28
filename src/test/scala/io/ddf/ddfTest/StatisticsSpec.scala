@@ -99,33 +99,33 @@ trait StatisticsSpec extends BaseSpec with Matchers {
       Array("Year", "Month", "DayofMonth", "UniqueCarrier").foreach(airlineDDF.setAsFactor)
       val simpleSummary = airlineDDF.getStatisticsSupporter.getSimpleSummary
 
-      simpleSummary.find(s => s.getColumnName == "Year").get match {
+      simpleSummary.find(s => Seq("Year" ,"year").contains(s.getColumnName)).get match {
         case cat: CategoricalSimpleSummary =>
           val categoryValues: java.util.List[String] = cat.getValues
           categoryValues.size should be(3)
           categoryValues should contain allOf("2008", "2009", "2010")
       }
 
-      simpleSummary.find(s => s.getColumnName == "UniqueCarrier").get match {
+      simpleSummary.find(s => Seq("UniqueCarrier" ,"uniquecarrier").contains(s.getColumnName)).get match {
         case cat: CategoricalSimpleSummary =>
           val categoryValues: java.util.List[String] = cat.getValues
           categoryValues.size should be(1)
           categoryValues should contain("WN")
       }
 
-      simpleSummary.find(s => s.getColumnName == "LateAircraftDelay").get match {
+      simpleSummary.find(s => Seq("LateAircraftDelay" ,"lateaircraftdelay").contains(s.getColumnName)).get match {
         case num: NumericSimpleSummary =>
           num.getMax should be(72.0)
           num.getMin should be(7.0)
       }
 
-      simpleSummary.find(s => s.getColumnName == "ActualElapsedTime").get match {
+      simpleSummary.find(s => Seq("ActualElapsedTime", "actualelapsedtime").contains(s.getColumnName) ).get match {
         case num: NumericSimpleSummary =>
           num.getMax should be(324.0)
           num.getMin should be(49.0)
       }
 
-      simpleSummary.find(s => s.getColumnName == "DepDelay").get match {
+      simpleSummary.find(s => Seq("DepDelay", "depdelay").contains(s.getColumnName)).get match {
         case num: NumericSimpleSummary =>
           num.getMax should be(94.0)
           num.getMin should be(-4.0)
